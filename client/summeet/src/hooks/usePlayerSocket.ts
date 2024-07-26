@@ -1,4 +1,4 @@
-import holder from '@/assets/holder.png';
+import holder from '@/assets/player.png';
 import { ConnectedPlayer } from '@/models/connected-player';
 import type { Player } from '@/models/player';
 import { meetingStore } from '@/stores/meeting';

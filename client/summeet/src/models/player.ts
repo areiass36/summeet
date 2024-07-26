@@ -4,11 +4,12 @@ import type { State } from "./state";
 import { Direction } from "./direction";
 import { sprite } from '@/common/sprite';
 import type { User } from "./user";
+import { th } from "vuetify/locale";
 
 export class Player implements Renderable, Stateful {
 
 	animationFrame: number = 0;
-	previousAnimationFrame: number = 0;
+	frame: number = 0;
 	img: HTMLImageElement;
 	position: Position;
 	direction: Direction;
@@ -28,9 +29,6 @@ export class Player implements Renderable, Stateful {
 
 	updateState(state: State): void {
 		if (!this.isMoving) {
-			this.animationFrame = this.previousAnimationFrame == 0 ? 2 : 0
-			this.previousAnimationFrame = this.animationFrame;
-
 			const nextPosition = this.getNextPosition();
 			const canMoveX = !(nextPosition.x < 0 || nextPosition.x > state.layer.tiles[0].length - 1);
 			const canMoveY = !(nextPosition.y < 0 || nextPosition.y > state.layer.tiles.length - 1);
@@ -52,6 +50,7 @@ export class Player implements Renderable, Stateful {
 
 		this.position.x = Math.round(this.position.x * 100) / 100;
 		this.position.y = Math.round(this.position.y * 100) / 100;
+		console.log(this.position);
 	}
 
 	private getNextPosition(): Position {
@@ -72,8 +71,16 @@ export class Player implements Renderable, Stateful {
 
 		const halfY = Math.floor(screen.tiles.y / 2)
 		const actualY = Math.floor(screen.yUnit * halfY);
-		const frame = this.isMoving ? this.animationFrame : 1;
 
-		ctx.drawImage(this.img, sprite.base * frame, sprite.height * this.direction, sprite.width, sprite.height, actualX, actualY, sprite.width / screen.scale, sprite.height / screen.scale);
+		const maxFrame = this.isMoving ? sprite.maxMovingFrames : sprite.maxIdleFrames;
+		if (this.frame > maxFrame) {
+			this.animationFrame = this.animationFrame == sprite.animationSprites - 1 ? 0 : this.animationFrame + 1;
+			this.frame = 0;
+		}
+
+		const horizontalFrame = this.animationFrame;
+		const verticalFrame = this.isMoving ? this.direction + sprite.movingAnimationOffset : this.direction;
+		ctx.drawImage(this.img, sprite.width * horizontalFrame, sprite.height * verticalFrame, sprite.width, sprite.height, actualX, actualY, sprite.width / screen.scale, sprite.height / screen.scale);
+		this.frame++;
 	}
 }

@@ -5,7 +5,7 @@ import { screenStore } from '@/stores/screen';
 import { keymap } from '@/common/keymap';
 import { ref } from 'vue';
 import { Player } from '@/models/player';
-import holder from '@/assets/holder.png';
+import holder from '@/assets/player.png';
 import office from '@/assets/office.png';
 import type { State } from '@/models/state';
 import { Direction } from '@/models/direction';
