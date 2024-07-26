@@ -5,6 +5,9 @@ project.lock.json
 *.pyc
 nupkg/
 
+# Util files
+utils/images/files/*
+
 # Visual Studio Code
 .vscode
 *.code-workspace
