@@ -1,18 +1,18 @@
-import { type LayerRenderer } from './layer-renderer'
 import { layer } from '@/common/layer'
 import type { State } from './state';
-export class Layer implements LayerRenderer {
-	background: HTMLImageElement;
+import type { Renderable } from './entity';
+
+export class Layer implements Renderable {
+	img: HTMLImageElement;
 	foreground?: HTMLImageElement;
 	tiles: number[][];
 
-	constructor(background: HTMLImageElement, tiles: number[][], foreground?: HTMLImageElement) {
-		this.background = background;
-		this.foreground = foreground;
+	constructor(background: HTMLImageElement, tiles: number[][]) {
+		this.img = background;
 		this.tiles = tiles;
 	}
 
-	drawBackground(state: State, ctx: CanvasRenderingContext2D): void {
+	draw(state: State): void {
 		const player = state.localPlayer;
 		const screen = state.screen;
 		const halfX = Math.floor(screen.tiles.x / 2)
@@ -20,10 +20,7 @@ export class Layer implements LayerRenderer {
 		const halfY = Math.floor((screen.tiles.y) / 2) + 1
 		const actualX = screen.xUnit * (player.position.x - halfX)
 		const actualY = screen.yUnit * (player.position.y - halfY)
-		ctx.drawImage(this.background, -actualX, -actualY, layer.width, layer.height);
-
-	}
-	drawForeground(state: State, ctx: CanvasRenderingContext2D): void {
+		state.ctx.drawImage(this.img, -actualX, -actualY, layer.width, layer.height);
 
 	}
 }

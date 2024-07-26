@@ -1,11 +1,11 @@
-import { type EntityState, type EntityRenderer } from "./entity";
+import { type Stateful, type Renderable } from "./entity";
 import { type Position } from "./position";
 import type { State } from "./state";
 import { Direction } from "./direction";
 import { sprite } from '@/common/sprite';
 import type { User } from "./user";
 
-export class Player implements EntityRenderer, EntityState {
+export class Player implements Renderable, Stateful {
 
 	animationFrame: number = 0;
 	previousAnimationFrame: number = 0;

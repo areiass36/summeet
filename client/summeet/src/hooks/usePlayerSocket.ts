@@ -10,6 +10,10 @@ import { useWebSocket } from '@/hooks/useWebSocket';
 import type { PlayerDisconnected } from '@/models/player-disconnected';
 import { connectedPlayersStore } from '@/stores/connectedPlayer';
 
+export interface PlayerSocket {
+	sendPlayerInfo(player: Player): void
+}
+
 export function usePlayerSocket(url: string) {
 	const socket = useWebSocket(url);
 	const { connections } = connectedPlayersStore();
@@ -56,5 +60,5 @@ export function usePlayerSocket(url: string) {
 		socket.sendMessage({ type: MessageType.playerInfo, content: player });
 	}
 
-	return { sendPlayerInfo }
+	return { sendPlayerInfo } as PlayerSocket
 }

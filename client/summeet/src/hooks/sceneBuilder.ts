@@ -1,8 +1,9 @@
 import { onMounted, onUnmounted, ref, type Ref } from 'vue'
 import { screenStore } from '@/stores/screen';
 import { debugStore } from '@/stores/debug';
+import { events } from '@/common/events';
 
-export function useSceneBuilder(cnv: Ref<HTMLCanvasElement>, run: () => void, render: () => void) {
+export function useSceneBuilder(cnv: Ref<HTMLCanvasElement>, onInit: () => void) {
 	const screen = screenStore();
 	const debuggerStore = debugStore();
 	const ctx = ref() as Ref<CanvasRenderingContext2D>;
@@ -23,6 +24,7 @@ export function useSceneBuilder(cnv: Ref<HTMLCanvasElement>, run: () => void, re
 		const maxUpdate = 4;
 		let previousTime = performance.now();
 		let lag = 0;
+		onInit();
 		function loop() {
 			const now = performance.now();
 			let elapsed = now - previousTime;
@@ -33,12 +35,12 @@ export function useSceneBuilder(cnv: Ref<HTMLCanvasElement>, run: () => void, re
 			do {
 				cnv.value.width = screen.width;
 				cnv.value.height = screen.height;
-				run();
+				cnv.value.dispatchEvent(new Event(events.update));
 				lag -= msPerUpdate;
 				i++;
 			} while (lag >= msPerUpdate && i < maxUpdate);
 			previousTime = now;
-			render();
+			cnv.value.dispatchEvent(new Event(events.render));
 			animationFrameId.value = window.requestAnimationFrame(loop);
 		}
 		animationFrameId.value = window.requestAnimationFrame(loop);

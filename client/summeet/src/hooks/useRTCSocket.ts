@@ -6,6 +6,13 @@ import type { RTCContent, RTCMessage } from "@/models/rtc-content";
 import { MessageType } from "@/common/message-type";
 import { ca } from "vuetify/locale";
 
+
+export interface RTCSocket {
+    cleanUnconnectedPeers(peersPresent: Set<number>): void
+    startMeeting(origin: number, destination: number): void
+    endMeeting(destination: number): void
+}
+
 export function useRTCSocket(url: string) {
     const socket = useWebSocket(url);
     const connections = reactive<Map<number, RTCPeerConnection>>(new Map<number, RTCPeerConnection>());
@@ -56,7 +63,6 @@ export function useRTCSocket(url: string) {
 
     function onTrack(origin: number, destination: number) {
         return (e: RTCTrackEvent) => {
-            //console.log("Track received");
             e.track.onunmute = () => {
                 if (meeting.remoteStreams.has(destination)) return;
                 const videoTrack = e.streams[0].getVideoTracks()[0];
@@ -119,5 +125,5 @@ export function useRTCSocket(url: string) {
         }
     }
 
-    return { cleanUnconnectedPeers, startMeeting, endMeeting }
+    return { cleanUnconnectedPeers, startMeeting, endMeeting } as RTCSocket
 }

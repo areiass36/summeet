@@ -1,12 +1,12 @@
 import { Direction } from "./direction";
-import type { EntityRenderer, EntityState } from "./entity";
+import type { Renderable, Stateful } from "./entity";
 import type { Position } from "./position";
 import type { State } from "./state";
 import { sprite } from "@/common/sprite";
 import type { User } from "./user";
 import type { Player } from "./player";
 
-export class ConnectedPlayer implements EntityRenderer, EntityState {
+export class ConnectedPlayer implements Renderable, Stateful {
 
 	previousAnimationFrame: number = 2;
 	animationFrame: number = 0;

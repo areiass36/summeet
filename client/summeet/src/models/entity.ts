@@ -2,14 +2,14 @@ import { type Direction } from './direction'
 import { type Position } from './position'
 import type { State } from './state'
 
-export interface EntityState {
+export interface Stateful {
 	direction: Direction,
 	position: Position,
 	isMoving: boolean,
 	updateState(state: State): void
 }
 
-export interface EntityRenderer {
+export interface Renderable {
 	img: HTMLImageElement,
 	draw(state: State): void
 }
