@@ -38,12 +38,6 @@ export class ConnectedPlayer implements Renderable, Stateful {
 		const screen = state.screen;
 		const ctx = state.ctx;
 		const localPlayer = state.localPlayer;
-		const screenYPosition = localPlayer.position.y - (screen.tiles.y / 2);
-		const screenXPosition = localPlayer.position.x - (screen.tiles.x / 2);
-
-		const isPlayerInX = this.position.x >= screenXPosition && this.position.x <= screenXPosition + screen.tiles.x;
-		const isPlayerInY = this.position.y >= screenYPosition && this.position.y <= screenYPosition + screen.tiles.y;
-		const isOnScreen = isPlayerInX && isPlayerInY;
 
 		const actualX = screen.xUnit * (this.position.x - (localPlayer.position.x - Math.floor(screen.tiles.x / 2)));
 		const actualY = screen.yUnit * (this.position.y - (localPlayer.position.y - Math.floor(screen.tiles.y / 2)));

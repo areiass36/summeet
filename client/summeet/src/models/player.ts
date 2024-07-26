@@ -38,13 +38,13 @@ export class Player implements Renderable, Stateful {
 			if (!canStartMoving)
 				return;
 		}
-		const velocity = .2;
+
 		const key = state.controller.getDirection();
-		const pace = velocity;
+		const pace = .05;
 		if (this.direction == Direction.Left && (key == Direction.Left || this.isMoving))
 			this.position.x -= pace;
 		else if (this.direction == Direction.Right && (key == Direction.Right || this.isMoving))
-			this.position.x += pace
+			this.position.x += pace;
 		else if (this.direction == Direction.Up && (key == Direction.Up || this.isMoving))
 			this.position.y -= pace;
 		else if (this.direction == Direction.Down && (key == Direction.Down || this.isMoving))
@@ -52,13 +52,6 @@ export class Player implements Renderable, Stateful {
 
 		this.position.x = Math.round(this.position.x * 100) / 100;
 		this.position.y = Math.round(this.position.y * 100) / 100;
-		const tolerance = .01
-
-		if (Math.abs(this.position.x - Math.round(this.position.x)) < tolerance)
-			this.position.x = Math.round(this.position.x);
-		if (Math.abs(this.position.y - Math.round(this.position.y)) < tolerance)
-			this.position.y = Math.round(this.position.y);
-
 	}
 
 	private getNextPosition(): Position {
