@@ -10,18 +10,16 @@ export function useSceneBuilder(cnv: Ref<HTMLCanvasElement>, onInit: () => void)
 	const animationFrameId = ref() as Ref<number>;
 
 	onMounted(() => {
-		console.log("Build");
 		cnv.value.width = screen.width;
 		cnv.value.height = screen.height;
 		ctx.value = cnv.value.getContext("2d")!;
-		ctx.value.scale(1, 1);
 		(window as any).debug = () => debuggerStore.debug = !debuggerStore.debug;
 		startMainLoop();
 	});
 
 	function startMainLoop() {
-		const msPerUpdate = 15;
-		const maxUpdate = 4;
+		const maxMsPerUpdate = 15;
+		const maxUpdates = 2;
 		let previousTime = performance.now();
 		let lag = 0;
 		onInit();
@@ -29,18 +27,21 @@ export function useSceneBuilder(cnv: Ref<HTMLCanvasElement>, onInit: () => void)
 			const now = performance.now();
 			let elapsed = now - previousTime;
 			const fps = Math.round(1 / (elapsed / 1000));
-			debuggerStore.fps = fps;
-			lag += elapsed;
-			let i = 0;
+			lag = elapsed;
+			//console.log("elapsed", elapsed);
+			let updates = 0;
 			do {
 				cnv.value.width = screen.width;
 				cnv.value.height = screen.height;
 				cnv.value.dispatchEvent(new Event(events.update));
-				lag -= msPerUpdate;
-				i++;
-			} while (lag >= msPerUpdate && i < maxUpdate);
-			previousTime = now;
+				lag -= maxMsPerUpdate;
+				updates++;
+			} while (lag >= maxMsPerUpdate && updates < maxUpdates);
+			//console.log("lag", lag);
+			//console.log("updates", updates);
+			debuggerStore.fps = fps;
 			cnv.value.dispatchEvent(new Event(events.render));
+			previousTime = now;
 			animationFrameId.value = window.requestAnimationFrame(loop);
 		}
 		animationFrameId.value = window.requestAnimationFrame(loop);

@@ -3,5 +3,6 @@ export interface Screen {
 	height: number,
 	tiles: { x: number, y: number }
 	xUnit: number,
-	yUnit: number
+	yUnit: number,
+	scale: number
 }	

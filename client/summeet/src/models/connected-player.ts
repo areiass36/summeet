@@ -48,6 +48,6 @@ export class ConnectedPlayer implements Renderable, Stateful {
 		const actualX = screen.xUnit * (this.position.x - (localPlayer.position.x - Math.floor(screen.tiles.x / 2)));
 		const actualY = screen.yUnit * (this.position.y - (localPlayer.position.y - Math.floor(screen.tiles.y / 2)));
 		const frame = this.isMoving ? this.animationFrame : 1;
-		ctx.drawImage(this.img, sprite.base * frame, sprite.height * this.direction, sprite.width, sprite.height, actualX, actualY, sprite.width, sprite.height);
+		ctx.drawImage(this.img, sprite.base * frame, sprite.height * this.direction, sprite.width, sprite.height, actualX, actualY, sprite.width / screen.scale, sprite.height / screen.scale);
 	}
 }

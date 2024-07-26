@@ -18,9 +18,9 @@ export class Layer implements Renderable {
 		const halfX = Math.floor(screen.tiles.x / 2)
 		//+1 fixes player upper sprite position
 		const halfY = Math.floor((screen.tiles.y) / 2) + 1
-		const actualX = screen.xUnit * (player.position.x - halfX)
-		const actualY = screen.yUnit * (player.position.y - halfY)
-		state.ctx.drawImage(this.img, -actualX, -actualY, layer.width, layer.height);
+		const actualX = ((screen.xUnit) * (player.position.x - halfX));
+		const actualY = ((screen.yUnit) * (player.position.y - halfY));
+		state.ctx.drawImage(this.img, -actualX, -actualY, layer.width / screen.scale, layer.height / screen.scale);
 
 	}
 }

@@ -15,7 +15,6 @@ import { meetingStore } from '@/stores/meeting';
 import { usePlayerSocket } from '@/hooks/usePlayerSocket';
 import { useRTCSocket } from '@/hooks/useRTCSocket';
 import { connectedPlayersStore } from '@/stores/connectedPlayer';
-import { KeysController } from '@/controllers/keys-controller';
 import type { RenderHandler, StateHandler } from '@/models/handler';
 import { cs } from 'vuetify/locale';
 import { OnlinePlayerHandler } from './handlers/onlinePlayerHandler';
@@ -23,14 +22,16 @@ import { MeetingHandler } from './handlers/meetingHandler';
 import { PlayerHandler } from './handlers/playerHandler';
 import { BackgroundHandler } from './handlers/backgroundHandler';
 import { events } from '@/common/events';
+import { keysStore } from '@/stores/keys';
 
 const screen = screenStore();
+const keys = keysStore();
 const id = randomId();
 const cnv = ref() as Ref<HTMLCanvasElement>;
 const ctx = useSceneBuilder(cnv, onInit);
 const { connections } = connectedPlayersStore();
-const rtcSocket = useRTCSocket('ws://127.0.0.1:5201/rtc?user='+id);
-const playerSocket = usePlayerSocket(`ws://127.0.0.1:5201/office?roomId=${1}&user=${id}`);
+const rtcSocket = useRTCSocket('ws://192.168.3.9:5201/rtc?user='+id);
+const playerSocket = usePlayerSocket(`ws://192.168.3.9:5201/office?roomId=${1}&user=${id}`);
 const state = ref() as Ref<State>;
 
 function randomRoom(): number {
@@ -85,12 +86,12 @@ function onInit() {
 
 	state.value = {
 		layer: layer,
-		controller: new KeysController(),
+		controller: keys,
 		localPlayer: player,
 		onlinePlayers: connections,
 		screen: screen,
 		ctx: ctx.value
-	}
+	}	
 	//temp, delete it later
 	cnv.value.addEventListener(events.update, () => processInput());
 	addStateListeners([new OnlinePlayerHandler(),new MeetingHandler(rtcSocket), new PlayerHandler(playerSocket)]);
@@ -116,18 +117,6 @@ function processInput() {
 		player.direction = direction;
 	}
 }
-
-onMounted(() => {
-	document.addEventListener('keydown', (e: KeyboardEvent) => {
-		if (!state.value) return;
-		state.value.controller.pressingKeys[keymap.get(e.code)!] = true;
-	}, false);
-	document.addEventListener('keyup', (e: KeyboardEvent) => {
-		if (!state.value) return;
-		state.value.controller.pressingKeys[keymap.get(e.code)!] = false;
-	}, false);
-})
-
 </script>
 
 <template>
@@ -140,5 +129,38 @@ canvas {
 	width: 100%;
 	height: 100%;
 	image-rendering: pixelated;
+}
+.btns {
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
+	z-index: 1;
+	position: absolute;
+	left: 1rem;
+	bottom: 1rem;
+	align-items: center;
+	justify-content: center;
+	width: 10rem;
+	height: 10rem;
+}
+
+.up {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.left {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.right {
+	grid-column: 3;
+	grid-row: 2;
+}
+
+.down {
+	grid-column: 2;
+	grid-row: 3;
 }
 </style>

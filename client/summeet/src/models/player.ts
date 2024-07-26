@@ -38,23 +38,27 @@ export class Player implements Renderable, Stateful {
 			if (!canStartMoving)
 				return;
 		}
-		const velocity = 0.2;
-		const step = 1;
+		const velocity = .2;
 		const key = state.controller.getDirection();
+		const pace = velocity;
 		if (this.direction == Direction.Left && (key == Direction.Left || this.isMoving))
-			this.position.x -= (step * velocity);
+			this.position.x -= pace;
 		else if (this.direction == Direction.Right && (key == Direction.Right || this.isMoving))
-			this.position.x += (step * velocity);
+			this.position.x += pace
 		else if (this.direction == Direction.Up && (key == Direction.Up || this.isMoving))
-			this.position.y -= (step * velocity);
+			this.position.y -= pace;
 		else if (this.direction == Direction.Down && (key == Direction.Down || this.isMoving))
-			this.position.y += (step * velocity);
+			this.position.y += pace;
 
+		this.position.x = Math.round(this.position.x * 100) / 100;
+		this.position.y = Math.round(this.position.y * 100) / 100;
 		const tolerance = .01
+
 		if (Math.abs(this.position.x - Math.round(this.position.x)) < tolerance)
 			this.position.x = Math.round(this.position.x);
 		if (Math.abs(this.position.y - Math.round(this.position.y)) < tolerance)
 			this.position.y = Math.round(this.position.y);
+
 	}
 
 	private getNextPosition(): Position {
@@ -77,6 +81,6 @@ export class Player implements Renderable, Stateful {
 		const actualY = Math.floor(screen.yUnit * halfY);
 		const frame = this.isMoving ? this.animationFrame : 1;
 
-		ctx.drawImage(this.img, sprite.base * frame, sprite.height * this.direction, sprite.width, sprite.height, actualX, actualY, sprite.width, sprite.height);
+		ctx.drawImage(this.img, sprite.base * frame, sprite.height * this.direction, sprite.width, sprite.height, actualX, actualY, sprite.width / screen.scale, sprite.height / screen.scale);
 	}
 }
