@@ -36,7 +36,7 @@ onMounted(() => {
 	</article>
 </template>
 
-<style>
+<style scoped>
 .video-container {
     position: absolute;
     display: flex;

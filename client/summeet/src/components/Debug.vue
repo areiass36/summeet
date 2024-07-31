@@ -10,7 +10,7 @@ const debuggerStore = debugStore();
 	</article>
 </template>
 
-<style>
+<style scoped>
 .fps {
 	display: flex;
 	background-color: white;

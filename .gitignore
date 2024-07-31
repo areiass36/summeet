@@ -8,6 +8,9 @@ nupkg/
 # Util files
 utils/images/files/*
 
+# Char files
+client/summeet/src/assets/*
+
 # Visual Studio Code
 .vscode
 *.code-workspace

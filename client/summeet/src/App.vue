@@ -3,6 +3,7 @@ import Office from '@/components/Office.vue';
 import Debug from '@/components/Debug.vue';
 import { onMounted } from 'vue';
 import { screenStore } from './stores/screen';
+import { RouterView } from 'vue-router';
 
 const screen = screenStore();
 
@@ -21,8 +22,12 @@ function onDocumentResize() {
 </script>
 
 <template>
-	<Debug />
-	<Office />
+	<RouterView />
+	<!--<Debug />
+	<Office />-->
 </template>
 
-<style></style>
+<style>
+@import '@/styles/global.css';
+</style>
+
