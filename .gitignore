@@ -10,6 +10,7 @@ utils/images/files/*
 
 # Char files
 client/summeet/src/assets/*
+client/summeet/public/img/*
 
 # Visual Studio Code
 .vscode

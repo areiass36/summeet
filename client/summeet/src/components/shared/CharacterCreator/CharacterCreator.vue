@@ -1,93 +1,103 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref, type Ref } from 'vue';
+import AssetBodyTab from './Tabs/AssetBodyTab.vue';
+import { Tabs } from './Tabs/tab';
+import AssetListTab from './Tabs/AssetListTab.vue';
+import { MockedAssets } from './mocked-assets';
 
-const items = reactive([0,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+const assets = MockedAssets;
+const tab = ref<Tabs>(Tabs.Hairstyle);
+
+interface Character {
+    body: CharacterAsset,
+    eyes: CharacterAsset,
+    hairstyle: CharacterAsset 
+}
+interface CharacterAsset {
+    asset: number, 
+    color: number
+}
+
+const char : Ref<Character> = ref({
+    body: {
+        asset: -1,
+        color: 3,
+    },
+    eyes: {
+        asset: -1,
+        color: 2,
+    },
+    hairstyle: {
+        asset: 1,
+        color: 2
+    }
+});
 </script>
 
 <template>
-<section>
-    <v-bottom-navigation mode="shift">
-        <v-btn value="recent">
-            <v-icon>mdi-history</v-icon>
+    <v-card>
+        <v-tabs v-model="tab" bg-color="primary" align-tabs="center">
+            <v-tab :value="Tabs.Body">Body</v-tab>
+            <v-tab :value="Tabs.Hairstyle">Hair</v-tab>
+            <v-tab :value="Tabs.Outfit">Outfit</v-tab>
+            <v-tab :value="Tabs.Accessories">Accesories</v-tab>
+        </v-tabs>
 
-            <span>Recent</span>
-        </v-btn>
-
-        <v-btn value="favorites">
-            <v-icon>mdi-heart</v-icon>
-
-            <span>Favorites</span>
-        </v-btn>
-
-        <v-btn value="nearby">
-            <v-icon>mdi-map-marker</v-icon>
-
-            <span>Nearby</span>
-        </v-btn>
-    </v-bottom-navigation>
-    <div class="character">
-        
-    </div>
-    <div class="tabs">
-        <div class="items">
-            <div v-for="i in items" class="item">
-
+        <v-card-text>
+            <div class="player">
+                <v-img :lazy-src="`https://picsum.photos/10/6?image=10`" :src="`https://picsum.photos/500/300?image=10`" cover></v-img>
             </div>
-        </div>
-        <div class="colors">
+            <v-tabs-window v-model="tab">
+                <v-tabs-window-item :value="Tabs.Body">
+                    <AssetBodyTab 
+                    :body-asset="assets.body"
+                    :eyes-asset="assets.body"
+                    :selected-body-color="char.body.color"
+                    :selected-eyes-color="char.eyes.color"
+                    @update-body="e => char.body = e"
+                    @update-eyes="e => char.eyes = e"/>
+                </v-tabs-window-item>
 
-        </div>
-    </div>  
-</section>
+                <v-tabs-window-item :value="Tabs.Hairstyle">
+                    <AssetListTab :assets="assets.hairstyle" 
+                    :selected-asset="char.hairstyle.asset" 
+                    :selected-color="char.hairstyle.color" 
+                    @update="e => char.hairstyle = e"/>
+                </v-tabs-window-item>
+
+                <v-tabs-window-item :value="Tabs.Outfit">
+                <div>Hello man</div>
+                </v-tabs-window-item>
+
+                <v-tabs-window-item :value="Tabs.Accessories">
+                <div>Hello man</div>
+                </v-tabs-window-item>
+            </v-tabs-window>
+        </v-card-text>
+    </v-card>
 </template>
 
 <style scoped>
-section {
-    background-color: red;
-    display: flex;
-    width: 50rem;
-    height: 40rem;
-    padding: 2rem;
-    align-items: center;
+.v-card {
+    width: 80%;
+    height: 50%;
 }
 
-.character {
-    background-color: gray;
-    width: 40%;
-    height: 75%;
-}
-
-.items {
+.v-card-text {
     display: grid;
-    background-color: green;
-    width: 100%;
-    height: 80%;
-    padding: 1rem;
-    gap: 1rem;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 5rem;
-    align-self: flex-start;
-    justify-items: center;
-    overflow-y: scroll;
-}
-
-.item {
-    background-color: white;
-    height: 5rem;
-    width: 5rem;
-    cursor: pointer;
-}
-
-.assets {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     height: 100%;
-    width: 60%;
-}
-
-.colors {
-    background-color: black;
-    height: 20%;
     width: 100%;
 }
+
+.v-card-text:nth-child(n) {
+    height: 100%;
+    width: 100%;
+}
+
+.v-tabs-window, .v-tabs-window-item {
+    height: 100%;
+}
+
 </style>

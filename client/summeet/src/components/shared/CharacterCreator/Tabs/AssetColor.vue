@@ -1,34 +1,34 @@
-<template>
-    <section>
-        <div v-for="v in asset.variants" class="color" :style="styles[v.color]"></div>
-    </section>
-</template>
-
 <script lang="ts" setup>
-import { defineComponent, reactive, defineModel, defineProps, ref, computed } from 'vue';
+import { defineProps, ref, computed } from 'vue';
+import type { OnUpdateAssetEvent } from './tab';
 
-interface Props { asset: Asset }
+interface Props { asset: Asset, selectedColor: number }
 const props = defineProps<Props>()
 
-type Style = { 'background-color': string, 'border-color': string }
+interface Emits { (e: 'update', event : OnUpdateAssetEvent) : () => void }
+const emit = defineEmits<Emits>();
 
-const styles = computed(() => { 
-    const styles : { [key : string]: Style }= {};
-    props.asset.variants.forEach(v => styles[v.color] = { "background-color": v.color, "border-color": `${v.color}` });
-    return styles;
-});
+function onUpdate(color: number) {
+    emit('update', { asset: -1, color: color});
+}
 </script>
 
-<style scoped>
-section {
-    display: flex;
-    gap: 1rem;
-}
+<template>
+    <v-chip-group>
+        <v-chip v-for="(v,i) in props.asset.variants" 
+        class="color"
+        :key="i"
+        :color="v.color" 
+        :style="{ 'border-color': v.color }"
+        @click="onUpdate(i)"
+        :variant="props.selectedColor === i ? 'elevated': 'outlined'"
+        />
+    </v-chip-group>
+</template>
 
+<style scoped>
 .color {
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: var(--border-radius-small);
-    box-sizing: border-box; 
+    width: 30px;
+    height: 30px;
 }
 </style>
