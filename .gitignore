@@ -7,6 +7,7 @@ nupkg/
 
 # Util files
 utils/images/files/*
+wwwroot/images/*
 
 # Char files
 client/summeet/src/assets/*
