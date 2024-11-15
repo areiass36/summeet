@@ -12,6 +12,7 @@ interface Character {
     body: CharacterAsset,
     eyes: CharacterAsset,
     hairstyle: CharacterAsset 
+    outfit: CharacterAsset
 }
 interface CharacterAsset {
     asset: number, 
@@ -30,6 +31,10 @@ const char : Ref<Character> = ref({
     hairstyle: {
         asset: 1,
         color: 2
+    },
+    outfit: {
+        asset: 0,
+        color: 1
     }
 });
 </script>
@@ -66,7 +71,10 @@ const char : Ref<Character> = ref({
                 </v-tabs-window-item>
 
                 <v-tabs-window-item :value="Tabs.Outfit">
-                <div>Hello man</div>
+                    <AssetListTab :assets="assets.outfits" 
+                    :selected-asset="char.outfit.asset" 
+                    :selected-color="char.outfit.color" 
+                    @update="e => char.outfit = e"/>
                 </v-tabs-window-item>
 
                 <v-tabs-window-item :value="Tabs.Accessories">

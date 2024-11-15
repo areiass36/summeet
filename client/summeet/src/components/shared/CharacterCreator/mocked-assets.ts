@@ -80,6 +80,134 @@ export const MockedAssets: Assets = {
             ]
         },
     ],
-    outfits: [],
-    accessories: [],
+    outfits: [
+        {
+            key: 'outfit1',
+            variants: [
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/0.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/1.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/2.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/3.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/4.png'
+                },
+            ]
+        },
+        {
+            key: 'outfit2',
+            variants: [
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/10.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/11.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/12.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/13.png'
+                },
+            ]
+        },
+        {
+            key: 'outfit3',
+            variants: [
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/14.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/15.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/16.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/17.png'
+                },
+            ]
+        },
+        {
+            key: 'outfit4',
+            variants: [
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/18.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/19.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/20.png'
+                },
+            ]
+        }
+    ],
+    accessories: [
+        {
+            key: 'accesory1',
+            variants: [
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/0.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/1.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/2.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/3.png'
+                },
+            ]
+        },
+        {
+            key: 'accesory2',
+            variants: [
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/8.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/12.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/13.png'
+                },
+                {
+                    color: '#F39F18',
+                    fileUrl: 'img/char/outfits/14.png'
+                },
+            ]
+        },
+    ],
 };

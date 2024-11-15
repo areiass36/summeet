@@ -30,15 +30,15 @@ const id = randomId();
 const cnv = ref() as Ref<HTMLCanvasElement>;
 const ctx = useSceneBuilder(cnv, onInit);
 const { connections } = connectedPlayersStore();
-const rtcSocket = useRTCSocket('ws://192.168.3.9:5201/rtc?user='+id);
-const playerSocket = usePlayerSocket(`ws://192.168.3.9:5201/office?roomId=${1}&user=${id}`);
+const rtcSocket = useRTCSocket('ws://localhost:5201/rtc?user=' + id);
+const playerSocket = usePlayerSocket(`ws://localhost:5201/office?roomId=${1}&user=${id}`);
 const state = ref() as Ref<State>;
 
 function randomRoom(): number {
 	return Math.floor(Math.random() * 2) + 1;
 }
 
-function randomId(): number{
+function randomId(): number {
 	return Math.floor(Math.random() * 9000);
 }
 
@@ -91,23 +91,23 @@ function onInit() {
 		onlinePlayers: connections,
 		screen: screen,
 		ctx: ctx.value
-	}	
+	}
 	//temp, delete it later
 	cnv.value.addEventListener(events.update, () => processInput());
-	addStateListeners([new OnlinePlayerHandler(),new MeetingHandler(rtcSocket), new PlayerHandler(playerSocket)]);
+	addStateListeners([new OnlinePlayerHandler(), new MeetingHandler(rtcSocket), new PlayerHandler(playerSocket)]);
 	addRenderListeners([new BackgroundHandler(), new OnlinePlayerHandler(), new PlayerHandler(playerSocket)]);
 }
 
-function addStateListeners(handlers : StateHandler[]) {
+function addStateListeners(handlers: StateHandler[]) {
 	handlers.forEach(h => {
 		cnv.value.addEventListener(events.update, () => h.onStateUpdated(state.value));
 	});
 }
 
 function addRenderListeners(handlers: RenderHandler[]) {
-	handlers.forEach(h => {	
+	handlers.forEach(h => {
 		cnv.value.addEventListener(events.render, () => h.onRender(state.value));
-	})	
+	})
 }
 
 function processInput() {
@@ -130,6 +130,7 @@ canvas {
 	height: 100%;
 	image-rendering: pixelated;
 }
+
 .btns {
 	display: grid;
 	grid-template-rows: 1fr 1fr 1fr;

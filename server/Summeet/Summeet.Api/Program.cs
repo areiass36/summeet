@@ -17,5 +17,5 @@ app.MapGet("/teste/{id}", ([FromRoute] int id) =>
 });
 
 app.UseMiddleware<WebSocketMiddleware>();
+Console.WriteLine("Your code is running");
 app.Run();
-

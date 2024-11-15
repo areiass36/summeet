@@ -23,11 +23,10 @@ function onDocumentResize() {
 
 <template>
 	<RouterView />
-	<!--<Debug />
-	<Office />-->
+	<Debug />
+	<Office />
 </template>
 
 <style>
 @import '@/styles/global.css';
 </style>
-
