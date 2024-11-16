@@ -1,9 +1,6 @@
-using System.Linq;
 using Summeet.Api.Services;
 using System.Net.WebSockets;
 using Summeet.Api.Utils;
-using Summeet.Api.Contracts;
-using Newtonsoft.Json;
 
 namespace Summeet.Api.Middlewares;
 
