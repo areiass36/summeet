@@ -1,4 +1,4 @@
-namespace Summeet.Api.Controllers.Assets.Contracts.GetAssets
+namespace Summeet.Api.Features.Assets.Contracts.GetAssets
 {
     public class Response
     {

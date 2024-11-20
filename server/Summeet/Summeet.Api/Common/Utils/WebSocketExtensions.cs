@@ -1,7 +1,7 @@
 using System.Net.WebSockets;
 using System.Text;
 
-namespace Summeet.Api.Utils;
+namespace Summeet.Api.Common.Utils;
 
 public static class WebsocketExtensiosn
 {

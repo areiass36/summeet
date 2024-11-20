@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Summeet.Api.Controllers.Assets.Services;
-using GetAssets = Summeet.Api.Controllers.Assets.Contracts.GetAssets;
+using Summeet.Api.Features.Assets.Services;
+using GetAssets = Summeet.Api.Features.Assets.Contracts.GetAssets;
 
-namespace Summeet.Api.Controllers.Assets;
+namespace Summeet.Api.Features.Assets;
 
 [ApiController]
 [Route("api/assets")]

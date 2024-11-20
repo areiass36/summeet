@@ -1,4 +1,4 @@
-namespace Summeet.Api.Contracts;
+namespace Summeet.Api.Common.Contracts;
 
 public static class MessageType
 {

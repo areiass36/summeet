@@ -1,14 +1,14 @@
 
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
-using System.Text;
 using Newtonsoft.Json;
-using Summeet.Api.Contracts;
-using Summeet.Api.Utils;
+using Summeet.Api.Common.Contracts;
+using Summeet.Api.Common.Services;
+using Summeet.Api.Common.Utils;
 
-namespace Summeet.Api.Services;
+namespace Summeet.Api.Features.Meeting;
 
-public class WebRTCWebsocketServices : IWebsocketServices
+public class WebSocketServices : IWebSocketServices
 {
     private readonly ConcurrentDictionary<Guid, WebSocket> _sockets = new();
     private readonly ConcurrentDictionary<int, Guid> _userSocket = new();

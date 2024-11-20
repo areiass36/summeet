@@ -1,4 +1,4 @@
-namespace Summeet.Api.Controllers.Assets.Services;
+namespace Summeet.Api.Features.Assets.Services;
 
 public class LocalAssetDownloaderService : IAssetDownloaderService
 {

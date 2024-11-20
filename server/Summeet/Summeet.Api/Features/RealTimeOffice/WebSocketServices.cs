@@ -3,11 +3,12 @@ using System.Net.WebSockets;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Summeet.Api.Contracts;
+using Summeet.Api.Common.Services;
+using Summeet.Api.Common.Contracts;
 
-namespace Summeet.Api.Services;
+namespace Summeet.Api.Features.RealTimeOffice;
 
-public class OfficeWebsocketServices : IWebsocketServices
+public class WebSocketServices : IWebSocketServices
 {
     private record SocketData(int User, WebSocket Socket);
     private readonly ConcurrentDictionary<int, ConcurrentDictionary<Guid, SocketData>> _rooms = new();

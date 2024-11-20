@@ -1,8 +1,8 @@
-using Summeet.Api.Services;
 using System.Net.WebSockets;
-using Summeet.Api.Utils;
+using Summeet.Api.Common.Utils;
+using Summeet.Api.Common.Services;
 
-namespace Summeet.Api.Middlewares;
+namespace Summeet.Api.Common.Middlewares;
 
 public class WebSocketMiddleware
 {
@@ -18,13 +18,9 @@ public class WebSocketMiddleware
         }
 
         var route = context.Request.Path.ToString();
-        var service = context.RequestServices.GetKeyedService<IWebsocketServices>(route);
-
-        if (service is null)
-            throw new NullReferenceException("WebSocket Service was not found");
+        var service = context.RequestServices.GetKeyedService<IWebSocketServices>(route) ?? throw new InvalidOperationException("No WebSocketServices for this route was found.");
 
         var socketId = Guid.NewGuid();
-
         Console.WriteLine($"Connection opened! {route} {socketId}");
 
         var query = context.Request.Query;
@@ -42,6 +38,4 @@ public class WebSocketMiddleware
         service.OnDisconnected(socketId);
 
     }
-
-
 }
