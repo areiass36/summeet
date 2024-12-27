@@ -3,6 +3,7 @@ using Summeet.Api.Common.Middlewares;
 using Meeting = Summeet.Api.Features.Meeting;
 using RealTimeOffice = Summeet.Api.Features.RealTimeOffice;
 using Summeet.Api.Features.Assets.Services;
+using Summeet.Api.Common.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ services.AddSocket<RealTimeOffice.WebSocketServices>("/office");
 services.AddSocket<Meeting.WebSocketServices>("/rtc");
 
 services.AddScoped<IAssetDownloaderService, LocalAssetDownloaderService>();
+services.AddDbContext<Database>();
 
 services.AddControllers();
 
