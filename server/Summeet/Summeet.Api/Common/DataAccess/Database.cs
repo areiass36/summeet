@@ -1,28 +1,52 @@
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Microsoft.Data.Sqlite;
+using Dapper;
+using Microsoft.Extensions.Options;
 
 namespace Summeet.Api.Common.DataAccess;
 
-public class Database : DbContext
+public class DatabaseOptions()
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public string Database { get; set; } = string.Empty;
+    public string Script { get; set; } = string.Empty;
+    public bool ShouldMigrate { get; set; }
+}
+
+public class Database : SqliteConnection
+{
+    private readonly DatabaseOptions _options;
+
+    public Database(DatabaseOptions options) : base($"Data source={options.Database}")
     {
-        optionsBuilder.UseSqlite("Data Source=data.sql");
+        ArgumentException.ThrowIfNullOrEmpty(options.Database);
+        if (!File.Exists(options.Database))
+            File.Create(options.Database);
+        _options = options;
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public void EnsureCreated()
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Database).Assembly);
-
-        var seeds = typeof(Database).Assembly.GetTypes().Where(t => t.IsAssignableFrom(typeof(ISeed<>)) && !t.IsInterface && !t.IsAbstract);
-        Console.WriteLine(seeds.Count());
-        foreach (var seed in seeds)
+        if (State is not System.Data.ConnectionState.Open)
+            Open();
+        if (_options.ShouldMigrate)
         {
-            Console.WriteLine("Applying Seed");
-            var entityType = seed.GenericTypeArguments.First();
-            var instance = Activator.CreateInstance(seed) as ISeed<object>;
-            modelBuilder.Entity(entityType).HasData(instance!.Seed);
+            var sql = File.ReadAllText(_options.Script);
+            this.Execute(sql);
         }
     }
 }
 
+public static class DatabaseExtensions
+{
+    public static IServiceCollection AddDatabase(this IServiceCollection services)
+    {
+        services.AddScoped<Database>(srv =>
+        {
+            var options = srv.GetService<IOptions<DatabaseOptions>>()!.Value;
+            var db = new Database(options);
+            db.Open();
+            db.EnsureCreated();
+            return db;
+        });
+        return services;
+    }
+}
